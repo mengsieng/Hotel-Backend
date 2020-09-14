@@ -8,13 +8,13 @@ const errorMessage = {
 }
 
 function notFound(req, res, next) {
-    const error = new Error(`Not found -${req.originalUrl}`)
-    res.status(404)
-    next(error)
+    const error = new Error(`Not found -${req.originalUrl}`);
+    res.status(404);
+    next(error);
 }
 
 function errorHandler(error, req, res, next) {
-    const statusCode = res.statusCode === 200 ? (errorTypes[error.name] || 500) : res.statusCode
+    const statusCode = res.statusCode === 200 ? (errorTypes[error.name] || 500) : res.statusCode;
     if (!error) {
         next();
     }
@@ -25,7 +25,7 @@ function errorHandler(error, req, res, next) {
         message: errorMessage[error.name] || error.message,
         stack: process.env.NODE_ENV === 'production' ? '🥞' : 'dev',
         errors: error.errors || undefined,
-    })
+    });
 
 }
 
