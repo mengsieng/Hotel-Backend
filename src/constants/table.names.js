@@ -4,4 +4,6 @@ module.exports = {
     room: 'room',
     roomStatus: 'roomStatus',
     images: 'images',
+    booking: 'booking',
+    bookingStatus: 'bookingStatus',
 }

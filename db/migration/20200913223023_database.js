@@ -1,5 +1,4 @@
 const tableNames = require('../../src/constants/table.names');
-const { table } = require('../../src/db');
 
 exports.up = async (knex) => {
     return await knex.schema.createTable(tableNames.roomStatus, (table) => {
@@ -18,23 +17,35 @@ exports.up = async (knex) => {
     }).createTable(tableNames.room, (table) => {
         table.increments('id').notNullable();
         table.string('number', 10).notNullable();
-        table.integer('room_status_id').references('id').inTable(tableNames.roomStatus);
-        table.integer('room_type_id').references('id').inTable(tableNames.roomtype);
+        table.integer('room_status_id').references('id').inTable(tableNames.roomStatus).notNullable();
+        table.integer('room_type_id').references('id').inTable(tableNames.roomtype).notNullable();
     }).createTable(tableNames.user, (table) => {
         table.increments('id').notNullable();
         table.string('username').notNullable();
         table.string('password', 127).notNullable();
-        table.string('firstName', 50);
-        table.string('lastName', 50);
-        table.date('DOB');
-        table.text('gender');
-        table.string('phonenumber', 15);
+        table.string('firstName', 50).notNullable();
+        table.string('lastName', 50).notNullable();
+        table.date('DOB').notNullable();
+        table.text('gender').notNullable();
+        table.string('phonenumber', 15).notNullable();
         table.text('profileUrl');
+    }).createTable(tableNames.bookingStatus, (table) => {
+        table.increments('id').notNullable();
+        table.string('status').notNullable();
+    }).createTable(tableNames.booking, (table) => {
+        table.increments('id').notNullable();
+        table.date('booking_date').notNullable();
+        table.timestamp('checkin_date');
+        table.timestamp('checkout_date');
+        table.integer('booking_status_id').references('id').inTable(tableNames.bookingStatus);
+        table.integer('room_id').references('id').inTable(tableNames.room);
     });
 };
 
 exports.down = async (knex) => {
     return knex.schema
+        .dropTable(tableNames.booking)
+        .dropTable(tableNames.bookingStatus)
         .dropTable(tableNames.user)
         .dropTable(tableNames.room)
         .dropTable(tableNames.images)
