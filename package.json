@@ -8,9 +8,9 @@
     "migrate": "npx knex migrate:latest",
     "rollback": "npx knex migrate:rollback",
     "seeding": "npx knex seed:run",
-    "start": "node src/index.js",
-    "heroku-prebuild": "npm install",
-    "heroku-postbuild": "npm run migrate && npm run seeding"
+    "build": "npm install",
+    "heroku-postbuild": "npm run build && npm run migrate && npm run seeding",
+    "start": "node src/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -26,5 +26,8 @@
     "objection": "^2.2.3",
     "pg": "^8.3.3",
     "yup": "^0.29.3"
+  },
+  "engines": {
+    "node": "12.16.2"
   }
 }
