@@ -8,7 +8,9 @@
     "migrate": "npx knex migrate:latest",
     "rollback": "npx knex migrate:rollback",
     "seeding": "npx knex seed:run",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "heroku-prebuild": "npm intall",
+    "heroku-postbuild": "npm run migrate && npm run seeding"
   },
   "author": "",
   "license": "ISC",
