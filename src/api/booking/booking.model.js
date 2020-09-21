@@ -1,7 +1,8 @@
 const { Model } = require('objection');
 
 const tableNames = require('../../constants/table.names');
-const { Room } = require('../room/room.model')
+const { Room } = require('../room/room.model');
+const User = require('../auth/auth.model')
 
 class BookingStatus extends Model {
     static get tableName() {
@@ -37,6 +38,14 @@ class Booking extends Model {
                     to: 'room.id'
                 },
             },
+            user: {
+                relation: Model.HasOneRelation,
+                modelClass: User,
+                join: {
+                    from: 'booking.user_id',
+                    to: 'user.id'
+                },
+            }
         };
     }
 }

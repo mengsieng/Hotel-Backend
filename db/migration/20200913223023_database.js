@@ -39,6 +39,7 @@ exports.up = async (knex) => {
         table.timestamp('checkout_date');
         table.integer('booking_status_id').references('id').inTable(tableNames.bookingStatus);
         table.integer('room_id').references('id').inTable(tableNames.room);
+        table.integer('user_id').references('id').inTable(tableNames.user);
     });
 };
 

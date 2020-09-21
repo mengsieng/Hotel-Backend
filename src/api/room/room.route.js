@@ -16,7 +16,7 @@ router.post('/create', async (req, res, next) => {
         })
         const existRoom = await Room.query().findOne({ number }).first();
         if (existRoom) {
-            res.json({ massage: 'This number already exisiting', statusCode: 2 });
+            res.json({ massage: 'This number already exisiting' });
         } else {
             const data = await Room.query().insert({ number, room_type_id, room_status_id: 1 });
             res.json(data);
@@ -75,7 +75,7 @@ router.patch('/update', async (req, res, next) => {
     try {
         const found = await Room.query().findById(id).first();
         if (!found) {
-            res.status(200).json({ message: 'Not Found', statusCode: 3 });
+            res.status(200).json({ message: 'Not Found' });
         } else {
             await schema.validate(req.body, {
                 abortEarly: false
@@ -85,7 +85,7 @@ router.patch('/update', async (req, res, next) => {
                 .where('room.number', number).first();
 
             if (existed) {
-                res.json({ massage: 'This number already exisiting', statusCode: 2 });
+                res.json({ massage: 'This number already exisiting' });
             } else {
                 const data = await Room.query().upsertGraph({ id, number, room_type_id });
                 res.json({ data });
