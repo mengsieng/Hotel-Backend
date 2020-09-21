@@ -17,16 +17,9 @@ module.exports = {
             directory: './db/seeds'
         }
     },
-    stagging: {
+    production: {
         client: 'pg',
-        connection: {
-            port: '5432',
-            user: process.env.POSTGRES_USER,
-            password: process.env.POSTGRES_PASSWORD,
-            database: process.env.POSTGRES_DB,
-            host: process.env.POSTGRES_HOST,
-            ssl: { rejectUnauthorized: false }
-        },
+        connection: process.env.DATABASE_URL,
         migrations: {
             directory: './db/migration'
         },
