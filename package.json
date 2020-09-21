@@ -9,7 +9,7 @@
     "rollback": "npx knex migrate:rollback",
     "seeding": "npx knex seed:run",
     "start": "node src/index.js",
-    "heroku-prebuild": "npm intall",
+    "heroku-prebuild": "npm install",
     "heroku-postbuild": "npm run migrate && npm run seeding"
   },
   "author": "",
