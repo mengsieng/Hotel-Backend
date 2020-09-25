@@ -54,8 +54,9 @@ router.post('/signIn', async (req, res, next) => {
     try {
         const { username, password } = req.body;
         const found = await User.query().findOne({ username }).first();
-        if (!found) {
-            res.status().json({ massage: 'Wrong username or password' });
+        console.log(found);
+        if (found === undefined) {
+            res.status(200).json({ massage: 'Wrong username or password' });
         }
         const validatePassword = await bcrypt.compare(password, found.password);
         if (!validatePassword) {
