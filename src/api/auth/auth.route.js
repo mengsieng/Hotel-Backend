@@ -32,7 +32,7 @@ router.post('/signUp', async (req, res, next) => {
         })
         const existUser = await User.query().findOne({ username }).first();
         if (existUser) {
-            res.json({ massage: 'This username already exisiting' });
+            res.json({ massage: 'This username already exisiting', statusCode: 2, });
         } else {
             const hashPassword = await bcrypt.hash(password, 12);
             data = await User.query()
@@ -56,11 +56,11 @@ router.post('/signIn', async (req, res, next) => {
         const found = await User.query().findOne({ username }).first();
         console.log(found);
         if (found === undefined) {
-            res.status(200).json({ massage: 'Wrong username or password' });
+            res.status(200).json({ massage: 'Wrong username or password', statusCode: 2, });
         }
         const validatePassword = await bcrypt.compare(password, found.password);
         if (!validatePassword) {
-            res.json({ massage: 'Wrong username or password' });
+            res.status(200).json({ massage: 'Wrong username or password', statusCode: 2, });
         }
         const payload = {
             id: found.id,

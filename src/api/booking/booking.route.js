@@ -21,7 +21,7 @@ router.post('/createBooking', async (req, res, next) => {
         const room = await Room.query()
             .withGraphJoined('status').where('room.id', '=', room_id).first();
         if (room.status.id != 1) {
-            res.status(200).json({ message: 'This room is not avaliable' });
+            res.status(200).json({ message: 'This room is not avaliable', statusCode: 2, });
         }
         await Room.query().patch({ room_status_id: 2 })
             .where('room.id', '=', room_id);

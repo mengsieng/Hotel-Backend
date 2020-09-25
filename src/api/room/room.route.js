@@ -75,7 +75,7 @@ router.patch('/update', async (req, res, next) => {
     try {
         const found = await Room.query().findById(id).first();
         if (!found) {
-            res.status(200).json({ message: 'Not Found' });
+            res.status(200).json({ message: 'Not Found', statusCode: 2, });
         } else {
             await schema.validate(req.body, {
                 abortEarly: false
@@ -85,7 +85,7 @@ router.patch('/update', async (req, res, next) => {
                 .where('room.number', number).first();
 
             if (existed) {
-                res.json({ massage: 'This number already exisiting' });
+                res.json({ massage: 'This number already exisiting', statusCode: 2, });
             } else {
                 const data = await Room.query().upsertGraph({ id, number, room_type_id });
                 res.json({ data });

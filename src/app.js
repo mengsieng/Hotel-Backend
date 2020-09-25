@@ -26,7 +26,13 @@ app.get('/', (req, res) => {
 app.use(mung.json(
     function transform(body, req, res) {
         //adds mungMessage to every API response
-        body.statusCode = 1;
+        console.log(body.statusCode);
+        if (body.statusCode) {
+            body.statusCode = body.statusCode;
+        } else {
+
+            body.statusCode = 1;
+        }
     }
 ));
 app.use('/api/v1', api);
