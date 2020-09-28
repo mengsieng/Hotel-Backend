@@ -97,4 +97,23 @@ router.patch('/update', jwtChecker.checkToken, async (req, res, next) => {
     }
 });
 
+router.patch('/changePassword', jwtChecker.checkToken, async (req, res, next) => {
+    const id = req.decoded.id;
+    const { oldPassword, newPassword } = req.body;
+    try {
+        const found = await User.query().findById(id).first();
+        const validatePassword = await bcrypt.compare(oldPassword, found.password);
+        // if (!validatePassword) {
+        //     res.status(200).json({ massage: 'Wrong password', statusCode: 2, });
+        // }
+        const hashPassword = await bcrypt.hash(newPassword, 12);
+        await User.query().patchAndFetchById(id, { password: hashPassword })
+        res.json({
+            massage: 'Success',
+        })
+    } catch (e) {
+        next(e);
+    }
+});
+
 module.exports = router;
