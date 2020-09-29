@@ -107,12 +107,13 @@ router.patch('/changePassword', jwtChecker.checkToken, async (req, res, next) =>
         const validatePassword = await bcrypt.compare(oldPassword, found.password);
         if (!validatePassword) {
             res.status(200).json({ massage: 'Wrong password', statusCode: 2 });
+        } else {
+            const hashPassword = await bcrypt.hash(newPassword, 12);
+            await User.query().findById(id).patch({ password: hashPassword })
+            res.json({
+                massage: 'Success',
+            })
         }
-        const hashPassword = await bcrypt.hash(newPassword, 12);
-        await User.query().patchAndFetchById(id, { password: hashPassword })
-        res.json({
-            massage: 'Success',
-        })
     } catch (e) {
         next(e);
     }
