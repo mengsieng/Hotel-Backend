@@ -6,8 +6,8 @@ exports.seed = async (knex) => {
     .then(function () {
       // Inserts seed entries
       return knex(tableName.roomStatus).insert([
-        { status: 'FREE' },
-        { status: 'BOOKING' },
+        { id: 1, status: 'FREE' },
+        { id: 2, status: 'BOOKING' },
       ]);
     });
 };
