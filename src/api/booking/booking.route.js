@@ -14,7 +14,7 @@ router.post('/createBooking', async (req, res, next) => {
     let dateTime = new Date().toISOString().
         replace(/T/, ' ').
         replace(/\..+/, '');
-    const { room_id } = req.body;
+    const { room_id, checkin_date } = req.body;
     let booking_status_id = 1;
     const user_id = req.decoded.id;
     try {
@@ -26,7 +26,7 @@ router.post('/createBooking', async (req, res, next) => {
         await Room.query().patch({ room_status_id: 2 })
             .where('room.id', '=', room_id);
         data = await Booking.query()
-            .insert({ booking_date, room_id, booking_status_id, user_id });
+            .insert({ booking_date, room_id, booking_status_id, user_id, checkin_date });
         res.send({ data });
     } catch (e) {
         next(e);
