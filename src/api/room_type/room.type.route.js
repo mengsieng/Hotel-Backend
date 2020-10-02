@@ -29,8 +29,11 @@ router.post('/create', async (req, res, next) => {
 });
 
 router.get('/listAll', async (req, res, next) => {
+    const { max, offset } = req.query
     try {
-        const data = await RoomType.query().withGraphJoined('images');
+        const data = await RoomType.query().withGraphJoined('images')
+            .limit(max * 1)
+            .offset((offset - 1) * max);
         res.status(200).json({ data });
     } catch (e) {
         next(e);
