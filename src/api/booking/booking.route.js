@@ -22,7 +22,7 @@ router.post('/createBooking', async (req, res, next) => {
     try {
         await schema.validate(req.body, {
             abortEarly: false
-        })
+        });
         const room = await Room.query()
             .withGraphJoined('status').where('room.id', '=', room_id).first();
         if (room.status.id != 1) {
