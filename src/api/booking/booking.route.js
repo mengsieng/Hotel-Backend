@@ -40,10 +40,11 @@ router.post('/createBooking', async (req, res, next) => {
 
 router.get('/listAllBooking', async (req, res, next) => {
     const user_id = req.decoded.id;
+    const { max, offset } = req.query;
     try {
         const data = await Booking.query()
             .withGraphJoined('[status,room.[roomType,status]]')
-            .where({ user_id });
+            .where({ user_id }).limit(max).offset((max) * offset);
         res.json({ data });
     } catch (e) {
         next(e);
