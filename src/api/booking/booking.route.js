@@ -1,11 +1,13 @@
 const router = require('express').Router();
+const yub = require('yup')
 
 const Booking = require('./booking.model');
 const { Room } = require('../room/room.model');
 
-router.get('/listAll', async (req, res, next) => {
-    res.json({ message: 'Hello love' });
-});
+let schema = yub.object().shape({
+    room_id: yub.number().required(),
+    checkin_date: yub.string().required(),
+})
 
 router.post('/createBooking', async (req, res, next) => {
     let booking_date = new Date().toISOString().
@@ -18,6 +20,9 @@ router.post('/createBooking', async (req, res, next) => {
     let booking_status_id = 1;
     const user_id = req.decoded.id;
     try {
+        await schema.validate(req.body, {
+            abortEarly: false
+        })
         const room = await Room.query()
             .withGraphJoined('status').where('room.id', '=', room_id).first();
         if (room.status.id != 1) {
